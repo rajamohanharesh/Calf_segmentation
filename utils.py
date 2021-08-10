@@ -7,22 +7,8 @@ import tensorflow as tf
 
 
 
-# convert predictions and actual seg masks array into flat categorical numpy array 
-def flat_categ(y_pred, y_act,NUM_CLASSES):
-        print('shape of predictions: ', y_pred.shape)
-        print('shape of actual:', y_act.shape)
-        
-        tf_flat_pred = tf.reshape(y_pred, [-1, NUM_CLASSES])
-        tf_flat_actual = tf.reshape(y_act, [-1, NUM_CLASSES])
 
-        tf_flat_pred_2 = tf.nn.softmax(tf_flat_pred)
-    
-        flat_pred = tf_flat_pred_2.eval(session=tf.compat.v1.Session())
-        actual = tf_flat_actual.eval(session=tf.compat.v1.Session())
-    
-        pred = np.argmax(flat_pred, axis=1)
-        
-        return to_categorical(pred, NUM_CLASSES), actual
+
 
 def rotate_data(X,y,angle):
     temp_rot_X = rotate(X,angle,reshape=False)

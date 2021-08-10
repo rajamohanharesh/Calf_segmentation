@@ -4,7 +4,7 @@ import tensorflow as tf
 
 
 
-def dice_multi(y_actual, y_predicted):
+def dice_multi(y_actual, y_predicted,NUM_CLASSES=6):
     flat_logits = tf.reshape(y_predicted, [-1, NUM_CLASSES])
     flat_labels = tf.reshape(y_actual, [-1, NUM_CLASSES])
     
@@ -27,7 +27,7 @@ def dice_multi(y_actual, y_predicted):
 
 
 
-def youden(target, input):
+def youden(target, input,NUM_CLASSES=6):
     lamb = 0.1*np.ones((NUM_CLASSES,NUM_CLASSES))
     for i in range(NUM_CLASSES):
         lamb[i,i]=1
@@ -59,12 +59,25 @@ def youden(target, input):
 
 
 
-def cross_entropy(y_actual, y_predicted):
+def cross_entropy(y_actual, y_predicted,NUM_CLASSES=6):
     flat_logits = tf.reshape(y_predicted, [-1, NUM_CLASSES])
     flat_labels = tf.reshape(y_actual, [-1, NUM_CLASSES])
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=flat_logits, labels=flat_labels))
     return loss
 
+class Full_loss:
+ 
+    def __init__(self, beta_ce,beta_youden,beta_dice,NUM_CLASSES):
+        self.beta_youden = beta_youden
+        self.beta_dice = beta_dice
+        self.beta_ce = beta_ce
+        self.NUM_CLASSES = NUM_CLASSES
+    def loss_fn(self,target, input):
+        
+        return self.beta_dice*dice_multi(target,input,self.NUM_CLASSES) +self.beta_ce*cross_entropy(target,input,self.NUM_CLASSES) + self.beta_youden*youden(target,input,self.NUM_CLASSES)
+
+
+ 
 
 
 

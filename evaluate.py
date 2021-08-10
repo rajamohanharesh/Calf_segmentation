@@ -24,7 +24,7 @@ from random import uniform
 from scipy.ndimage import distance_transform_edt as distance
 from scipy.ndimage.morphology import binary_erosion
 import argparse
-from helper import train
+from helper import train,evaluate
 from config import get_config
 from losses import *
 
@@ -98,14 +98,12 @@ def main() -> None:
 
 	loss_obj = Full_loss(beta_ce=beta_ce,beta_youden = beta_youden,beta_dice =beta_dice,NUM_CLASSES=NUM_CLASSES)
 
+	metrics=["dice","voe","assd","hd"]
 
 
-	train_loss_hist,val_loss_hist,train_dice_hist,val_dice_hist = train(train_df=val_df,val_df=val_df,full_cost=loss_obj.loss_fn,LEARNING_RATE=LEARNING_RATE,DROPOUT_RATE=DROPOUT_RATE,NUM_CHANNELS=NUM_CHANNELS,NUM_CLASSES=NUM_CLASSES,normalize=normalize,flipping=flipping,rotation=rotation,BATCH_SIZE=BATCH_SIZE,NUM_EPOCHS=NUM_EPOCHS,modelPath = result_path)
-	np.save(result_path+"train_loss.npy",train_loss_hist)
-	np.save(result_path+"val_loss.npy",val_loss_hist)
-	np.save(result_path+"train_dice.npy",train_dice_hist)
-	np.save(result_path+"val_dice.npy",val_dice_hist)
 
+	evaluate(test_df,normalize=normalize,full_cost=loss_obj.loss_fn,NUM_CHANNELS=NUM_CHANNELS,NUM_CLASSES=NUM_CLASSES,result_path=result_path,connectivity=3,mode=0,fold=FOLD,metrics=metrics)
+	
 
 if __name__ == "__main__":
 	main()

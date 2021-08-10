@@ -1,0 +1,17 @@
+OBJECTIVE: "muscles"
+NUM_CLASSES: 6
+NUM_CHANNELS: 1
+MODEL: "unet"
+BATCH_SIZE: 8
+FOLD: 1
+LEARNING_RATE: 0.00001
+NUM_EPOCHS: 400
+DROPOUT_RATE: 0.98
+beta_dice: 1.0
+beta_youden: 0.0
+beta_ce: 0.0
+scaling: False
+rotation: True
+cropping: True
+normalize: True
+flipping: True

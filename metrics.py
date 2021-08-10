@@ -21,6 +21,6 @@ def compute_assd(gt,pred,voxelspacing,connectivity):
 	return assd(pred,gt,voxelspacing=voxelspacing,connectivity=connectivity)
 
 
-def compute_hd(gt,pred):
+def compute_hd(gt,pred,voxelspacing,connectivity):
 	
 	return hd(pred,gt,voxelspacing=voxelspacing,connectivity=connectivity)

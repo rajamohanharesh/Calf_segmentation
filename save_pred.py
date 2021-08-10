@@ -24,7 +24,7 @@ from random import uniform
 from scipy.ndimage import distance_transform_edt as distance
 from scipy.ndimage.morphology import binary_erosion
 import argparse
-from helper import train
+from helper import train,evaluate,save_pred
 from config import get_config
 from losses import *
 
@@ -100,12 +100,8 @@ def main() -> None:
 
 
 
-	train_loss_hist,val_loss_hist,train_dice_hist,val_dice_hist = train(train_df=val_df,val_df=val_df,full_cost=loss_obj.loss_fn,LEARNING_RATE=LEARNING_RATE,DROPOUT_RATE=DROPOUT_RATE,NUM_CHANNELS=NUM_CHANNELS,NUM_CLASSES=NUM_CLASSES,normalize=normalize,flipping=flipping,rotation=rotation,BATCH_SIZE=BATCH_SIZE,NUM_EPOCHS=NUM_EPOCHS,modelPath = result_path)
-	np.save(result_path+"train_loss.npy",train_loss_hist)
-	np.save(result_path+"val_loss.npy",val_loss_hist)
-	np.save(result_path+"train_dice.npy",train_dice_hist)
-	np.save(result_path+"val_dice.npy",val_dice_hist)
 
+	save_pred(test_df,loss_obj.loss_fn,result_path,NUM_CHANNELS,NUM_CLASSES,normalize)
 
 if __name__ == "__main__":
 	main()

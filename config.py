@@ -15,7 +15,7 @@ __all__ = ["get_config"]
 class Config:
     OBJECTIVE: str = "muscles"
     NUM_CLASSES: int = 6
-    NUM_CHANNELS: int = 9
+    NUM_CHANNELS: int = 1
     MODEL: str = "unet"
     BATCH_SIZE: int = 8
     FOLD: int = 1

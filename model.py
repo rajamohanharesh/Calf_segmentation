@@ -31,7 +31,7 @@ def up_conv_block(m, dim):
 # In[19]:
 
 
-def unet(pretrained_weights = None,input_size = (192,192,NUM_CHANNELS)):
+def unet(pretrained_weights = None,input_size = (192,192,1), NUM_CLASSES=6,DROPOUT_RATE=0.1):
     inputs = Input(input_size)
 
     conv1 = conv_block(inputs, 64)
@@ -57,6 +57,6 @@ def unet(pretrained_weights = None,input_size = (192,192,NUM_CHANNELS)):
     up9 = up_conv_block(conv8, 64)
     merge9 = concatenate([conv1,up9], axis = 3)
     conv9 = conv_block(merge9, 64)
-    conv10 = Conv2D(6, 1, activation = None, padding = 'same', kernel_initializer = 'he_normal')(conv9)
+    conv10 = Conv2D(NUM_CLASSES, 1, activation = None, padding = 'same', kernel_initializer = 'he_normal')(conv9)
 
     return Model(input = inputs, outputs = conv10)
